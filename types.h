@@ -37,17 +37,17 @@ typedef struct list_t {
 void *
 arena_alloc(arr_t *a, u64 bytes);
 
-// define before #include somewhere once!
-#ifdef HELPER_IMPL
+#define TYPES_IMPLEMENTATION
+#ifdef TYPES_IMPLEMENTATION
 
 void *
 arena_alloc(arr_t *a, u64 bytes) {
 	if (a != NULL &&  a->begin != NULL) {
 		u64 offset = a->length + bytes;
 
-		if ((offset >= a->length) || (offset >= bytes)
-		&&  offset <= a->capacity) {
-			void *res = a->length;
+		if (((offset >= a->length) || (offset >= bytes))
+		&&  (offset <= a->capacity)) {
+			void *res = a->begin + a->length;
 			a->length = offset;
 
 			return res;
@@ -58,6 +58,6 @@ arena_alloc(arr_t *a, u64 bytes) {
 }
 
 
-#endif // HELPER_IMPL
+#endif // TYPES_IMPLEMENTATION
 
 #endif //_TYPES_H_
